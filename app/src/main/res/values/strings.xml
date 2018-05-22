@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SystemManagement</string>
+    <string name="title_activity_recycler">RecyclerActivity</string>
 </resources>
