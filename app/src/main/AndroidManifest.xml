@@ -20,6 +20,8 @@
             android:name=".RecyclerActivity"
             android:label="@string/title_activity_recycler"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity android:name=".CreateUser"/>
     </application>
 
 </manifest>

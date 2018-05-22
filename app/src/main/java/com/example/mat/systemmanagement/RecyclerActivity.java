@@ -1,5 +1,6 @@
 package com.example.mat.systemmanagement;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -25,7 +26,8 @@ public class RecyclerActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: pressed!"); // Whenever mail icon is pressed, it shows it in the Logcat
+                startActivity(new Intent(RecyclerActivity.this, CreateUser.class));
+
             }
         });
 
