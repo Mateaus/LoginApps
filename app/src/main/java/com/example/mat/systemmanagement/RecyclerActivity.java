@@ -11,12 +11,15 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import java.util.ArrayList;
+
 public class RecyclerActivity extends AppCompatActivity {
 
     private static final String TAG = "RecyclerActivity";
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     FloatingActionButton fab;
+    ArrayList<String> users;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +30,14 @@ public class RecyclerActivity extends AppCompatActivity {
 
         recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
 
+        users = new ArrayList<>();
+
+        for (int i = 0; i < 100; i++) {
+            users.add("Daniel # " + i);
+        }
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new UserAdapter();
+        adapter = new UserAdapter(users);
         recyclerView.setAdapter(adapter);
 
         fab = (FloatingActionButton)findViewById(R.id.fab);
