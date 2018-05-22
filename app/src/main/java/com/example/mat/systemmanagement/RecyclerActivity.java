@@ -20,8 +20,8 @@ public class RecyclerActivity extends AppCompatActivity {
     private static final String TAG = "RecyclerActivity";
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
-    FloatingActionButton fab;
-  //  ArrayList<User> users; // <name of list>
+    FloatingActionButton fab, deleteButton;
+    public static AppDatabase appDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,26 +30,21 @@ public class RecyclerActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        fab = (FloatingActionButton)findViewById(R.id.fab);
+        deleteButton = (FloatingActionButton)findViewById(R.id.deletebtn);
+
         recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
 
-   //     users = new ArrayList<>();
-
-   //     for (int i = 0; i < 100; i++) {
-    //        User user = new User("Joseph" + i, "Yanac", "mateauscgaming@gmail.com");
-    //        users.add(user);
-    //    }
-
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "production")
+        appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "production")
                 .allowMainThreadQueries()
                 .build();
 
-        List<User> users = db.userDao().getAllUsers();
+        List<User> users = appDatabase.userDao().getAllUsers();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new UserAdapter(users);
         recyclerView.setAdapter(adapter);
 
-        fab = (FloatingActionButton)findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,6 +53,12 @@ public class RecyclerActivity extends AppCompatActivity {
             }
         });
 
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RecyclerActivity.this, DeleteUserActivity.class));
+            }
+        });
     }
 
 }

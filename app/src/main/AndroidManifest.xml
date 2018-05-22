@@ -19,9 +19,9 @@
         <activity
             android:name=".RecyclerActivity"
             android:label="@string/title_activity_recycler"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
-        <activity android:name=".CreateUser"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".CreateUser" />
+        <activity android:name=".DeleteUserActivity"></activity>
     </application>
 
 </manifest>
