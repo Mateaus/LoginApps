@@ -12,7 +12,7 @@ import android.widget.Toast;
 public class DeleteUserActivity extends AppCompatActivity {
 
     EditText enterId;
-    Button deleteBtn, cancelBtn;
+    private Button deleteBtn, cancelBtn;
 
 
     @Override

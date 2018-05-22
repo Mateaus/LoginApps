@@ -19,8 +19,8 @@ public class RecyclerActivity extends AppCompatActivity {
 
     private static final String TAG = "RecyclerActivity";
     RecyclerView recyclerView;
-    RecyclerView.Adapter adapter;
-    FloatingActionButton fab, deleteButton;
+    public static RecyclerView.Adapter adapter;
+    FloatingActionButton fab;
     public static AppDatabase appDatabase;
 
     @Override
@@ -31,7 +31,6 @@ public class RecyclerActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         fab = (FloatingActionButton)findViewById(R.id.fab);
-        deleteButton = (FloatingActionButton)findViewById(R.id.deletebtn);
 
         recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
 
@@ -50,13 +49,6 @@ public class RecyclerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(new Intent(RecyclerActivity.this, CreateUser.class));
 
-            }
-        });
-
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(RecyclerActivity.this, DeleteUserActivity.class));
             }
         });
     }

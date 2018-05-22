@@ -17,7 +17,7 @@ public class CreateUser extends AppCompatActivity{
 
     private static final String TAG = "CreateUser";
 
-    private TextView id;
+    //private TextView id;
     EditText firstName, lastName, email;
     Button addButton, cancelButton;
 
@@ -26,7 +26,7 @@ public class CreateUser extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_user);
 
-        id = (TextView)findViewById(R.id.id);
+        //id = (TextView)findViewById(R.id.id);
         firstName = (EditText)findViewById(R.id.first_name);
         lastName = (EditText)findViewById(R.id.last_name);
         email = (EditText)findViewById(R.id.email);
@@ -40,13 +40,13 @@ public class CreateUser extends AppCompatActivity{
                 // TODO: 5/21/18 Save to database
                 Log.d(TAG, "onClick: firstName: " + firstName.getText().toString());
 
-                int userid = Integer.parseInt(id.getText().toString());
+                //int userid = Integer.parseInt(id.getText().toString()); // if manual input for ID is desired
                 String name = firstName.getText().toString();
                 String lastnm = lastName.getText().toString();
                 String eml = email.getText().toString();
 
                 User user = new User();
-                user.setId(userid);
+                //user.setId(userid); // if manual input for ID is desired
                 user.setFirstName(name);
                 user.setLastName(lastnm);
                 user.setEmail(eml);

@@ -2,9 +2,10 @@ package com.example.mat.systemmanagement;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity //this means it will be stored in the database
+@Entity                               //this means it will be stored in the database
 public class User {
 
     @PrimaryKey(autoGenerate = true)
