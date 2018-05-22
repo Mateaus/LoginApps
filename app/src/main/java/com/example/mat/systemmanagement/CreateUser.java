@@ -1,5 +1,7 @@
 package com.example.mat.systemmanagement;
 
+import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -27,12 +29,20 @@ public class CreateUser extends AppCompatActivity{
         email = (EditText)findViewById(R.id.email);
         button = (Button)findViewById(R.id.button);
 
+        final AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "production")
+                .allowMainThreadQueries()
+                .build();
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: 5/21/18 Save to database
                 Log.d(TAG, "onClick: firstName: " + firstName.getText().toString());
 
+                User user = new User(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString());
+                db.userDao().insertAll(user);
+                Intent intent = new Intent(CreateUser.this, RecyclerActivity.class);
+                startActivity(intent);
             }
         });
     }
