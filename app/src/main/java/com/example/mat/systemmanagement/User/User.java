@@ -1,4 +1,4 @@
-package com.example.mat.systemmanagement;
+package com.example.mat.systemmanagement.User;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;

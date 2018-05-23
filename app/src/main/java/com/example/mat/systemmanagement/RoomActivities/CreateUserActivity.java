@@ -1,32 +1,29 @@
-package com.example.mat.systemmanagement;
+package com.example.mat.systemmanagement.RoomActivities;
 
-import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-public class CreateUser extends AppCompatActivity{
+import com.example.mat.systemmanagement.R;
+import com.example.mat.systemmanagement.User.User;
 
-    private static final String TAG = "CreateUser";
+public class CreateUserActivity extends AppCompatActivity{
 
-    //private TextView id;
+    private static final String TAG = "CreateUserActivity";
+
     EditText firstName, lastName, email;
     Button addButton, cancelButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_user);
+        setContentView(R.layout.activity_create_user);
 
-        //id = (TextView)findViewById(R.id.id);
         firstName = (EditText)findViewById(R.id.first_name);
         lastName = (EditText)findViewById(R.id.last_name);
         email = (EditText)findViewById(R.id.email);
@@ -40,20 +37,18 @@ public class CreateUser extends AppCompatActivity{
                 // TODO: 5/21/18 Save to database
                 Log.d(TAG, "onClick: firstName: " + firstName.getText().toString());
 
-                //int userid = Integer.parseInt(id.getText().toString()); // if manual input for ID is desired
                 String name = firstName.getText().toString();
                 String lastnm = lastName.getText().toString();
                 String eml = email.getText().toString();
 
                 User user = new User();
-                //user.setId(userid); // if manual input for ID is desired
                 user.setFirstName(name);
                 user.setLastName(lastnm);
                 user.setEmail(eml);
 
                 RecyclerActivity.appDatabase.userDao().insertAll(user);
 
-                Intent intent = new Intent(CreateUser.this, RecyclerActivity.class);
+                Intent intent = new Intent(CreateUserActivity.this, RecyclerActivity.class);
                 startActivity(intent);
             }
         });
@@ -61,7 +56,7 @@ public class CreateUser extends AppCompatActivity{
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CreateUser.this, RecyclerActivity.class);
+                Intent intent = new Intent(CreateUserActivity.this, RecyclerActivity.class);
                 startActivity(intent);
             }
         });

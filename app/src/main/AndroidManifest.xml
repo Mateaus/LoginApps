@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".FireBaseAccountActivity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,11 +17,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RecyclerActivity"
+            android:name=".RoomActivities.RecyclerActivity"
             android:label="@string/title_activity_recycler"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CreateUser" />
-        <activity android:name=".DeleteUserActivity"></activity>
+        <activity android:name=".RoomActivities.CreateUserActivity" />
+        <activity android:name=".RoomActivities.DeleteUserActivity" />
+        <activity android:name=".RoomActivities.UpdateUserActivity" />
+        <activity android:name=".FireBaseAccountActivity.LoginActivity" />
+        <activity android:name=".FireBaseAccountActivity.SignupActivity"></activity>
     </application>
 
 </manifest>

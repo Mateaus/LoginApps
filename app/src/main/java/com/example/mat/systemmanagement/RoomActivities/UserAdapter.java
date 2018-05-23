@@ -1,8 +1,9 @@
-package com.example.mat.systemmanagement;
+package com.example.mat.systemmanagement.RoomActivities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,19 +11,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.example.mat.systemmanagement.R;
+import com.example.mat.systemmanagement.User.User;
+
 import java.util.List;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
-    private static final String TAG = "CreateUser";
+    private static final String TAG = "CreateUserActivity";
+    private Context context;
 
     List<User> users;
-    int number;
 
-    public UserAdapter(List<User> users) {
+    public UserAdapter(List<User> users, Context context) {
         this.users = users;
+        this.context = context;
     }
 
     @NonNull
@@ -32,18 +37,39 @@ class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         return new ViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull final UserAdapter.ViewHolder holder, final int position) {
-        //holder.id.setText(String.valueOf(users.get(position).getId())); // if id ever needs to be shown
-        //holder.firstName.setText("First Name: " + users.get(position).getFirstName());
         holder.firstName.setText("Name: " + users.get(position).getFirstName() + " " + users.get(position).getLastName());
-        //holder.lastName.setText("Last Name: " + users.get(position).getLastName());
         holder.email.setText("Email: " + users.get(position).getEmail());
+        holder.updatebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: id: " + users.get(position).getFirstName());
+                Intent intent = new Intent(context.getApplicationContext(), UpdateUserActivity.class);
+                intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+
+                int id = users.get(position).getId();
+                String fname = users.get(position).getFirstName();
+                String lname = users.get(position).getLastName();
+                String eml = users.get(position).getEmail();
+
+
+                Bundle bundle = new Bundle();
+                bundle.putString("id", String.valueOf(id));
+                bundle.putString("name", fname);
+                bundle.putString("lastname", lname);
+                bundle.putString("email", eml);
+                intent.putExtras(bundle);
+
+                context.getApplicationContext().startActivity(intent);
+            }
+        });
+
         holder.deletebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: id: " + users.get(position).getId());
-                //int userId = Integer.parseInt(holder.id.getText().toString()); // if id ever needs to be shown
 
                 int userId = users.get(position).getId();
 
@@ -61,18 +87,16 @@ class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        //public TextView id; // if id ever needs to be shown
         public TextView firstName;
-        //public TextView lastName;
         public TextView email;
         public Button deletebutton;
+        public Button updatebutton;
         public ViewHolder(View itemView) {
             super(itemView);
-            //id = itemView.findViewById(R.id.id);  // if id ever needs to be shown
             firstName = itemView.findViewById(R.id.first_name);
-            //lastName = itemView.findViewById(R.id.last_name);
             email = itemView.findViewById(R.id.email);
             deletebutton = itemView.findViewById(R.id.delBtn);
+            updatebutton = itemView.findViewById(R.id.updateBtn);
 
         }
     }
@@ -81,5 +105,9 @@ class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         users.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, users.size());
+    }
+
+    public void updateItem(int position) {
+
     }
 }

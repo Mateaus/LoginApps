@@ -1,18 +1,19 @@
-package com.example.mat.systemmanagement;
+package com.example.mat.systemmanagement.RoomActivities;
 
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
-import java.util.ArrayList;
+import com.example.mat.systemmanagement.RoomDB.AppDatabase;
+import com.example.mat.systemmanagement.R;
+import com.example.mat.systemmanagement.User.User;
+
 import java.util.List;
 
 public class RecyclerActivity extends AppCompatActivity {
@@ -41,13 +42,13 @@ public class RecyclerActivity extends AppCompatActivity {
         List<User> users = appDatabase.userDao().getAllUsers();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new UserAdapter(users);
+        adapter = new UserAdapter(users, getApplicationContext());
         recyclerView.setAdapter(adapter);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RecyclerActivity.this, CreateUser.class));
+                startActivity(new Intent(RecyclerActivity.this, CreateUserActivity.class));
 
             }
         });

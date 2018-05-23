@@ -9,12 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
         <android.support.design.widget.TextInputEditText
             android:id="@+id/first_name"
             android:hint="First Name"
@@ -48,10 +42,10 @@
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/saveBtn"
+        android:id="@+id/updateBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save User" />
+        android:text="Update User" />
 
     <Button
         android:id="@+id/cancelBtn"
