@@ -26,16 +26,14 @@ public class UpdateUserActivity extends AppCompatActivity {
         updateBtn = (Button)findViewById(R.id.updateBtn);
         cancelBtn = (Button)findViewById(R.id.cancelBtn);
 
-        Bundle bundle = getIntent().getExtras();
+        final String id = getIntent().getExtras().getString("id");
+        String fname = getIntent().getExtras().getString("name");
+        String lname = getIntent().getExtras().getString("lastname");
+        String emal = getIntent().getExtras().getString("email");
 
-        final String id = bundle.getString("id");
-        String name = bundle.getString("name");
-        String lastname = bundle.getString("lastname");
-        String eml = bundle.getString("email");
-
-        firstName.setText(name);
-        lastName.setText(lastname);
-        email.setText(eml);
+        firstName.setText(fname);
+        lastName.setText(lname);
+        email.setText(emal);
 
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override

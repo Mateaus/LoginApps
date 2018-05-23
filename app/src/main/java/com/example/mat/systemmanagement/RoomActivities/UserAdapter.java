@@ -48,19 +48,10 @@ class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 Log.d(TAG, "onClick: id: " + users.get(position).getFirstName());
                 Intent intent = new Intent(context.getApplicationContext(), UpdateUserActivity.class);
                 intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
-
-                int id = users.get(position).getId();
-                String fname = users.get(position).getFirstName();
-                String lname = users.get(position).getLastName();
-                String eml = users.get(position).getEmail();
-
-
-                Bundle bundle = new Bundle();
-                bundle.putString("id", String.valueOf(id));
-                bundle.putString("name", fname);
-                bundle.putString("lastname", lname);
-                bundle.putString("email", eml);
-                intent.putExtras(bundle);
+                intent.putExtra("id", String.valueOf(users.get(position).getId()));
+                intent.putExtra("name", users.get(position).getFirstName());
+                intent.putExtra("lastname", users.get(position).getLastName());
+                intent.putExtra("email", users.get(position).getEmail());
 
                 context.getApplicationContext().startActivity(intent);
             }

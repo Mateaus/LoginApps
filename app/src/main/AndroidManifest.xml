@@ -26,7 +26,8 @@
         <activity android:name=".RoomActivities.UpdateUserActivity" />
         <activity android:name=".FireBaseAccountActivity.RegistrationActivity" />
         <activity android:name=".FireBaseAccountActivity.LoginActivity" />
-        <activity android:name=".FireBaseAccountActivity.ProfileActivity"></activity>
+        <activity android:name=".FireBaseAccountActivity.ProfileActivity" />
+        <activity android:name=".FireBaseAccountActivity.RetrievePasswordActivity"></activity>
     </application>
 
 </manifest>
