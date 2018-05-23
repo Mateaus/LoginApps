@@ -2,7 +2,6 @@ package com.example.mat.systemmanagement.FireBaseAccountActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,42 +17,38 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class LoginActivity extends AppCompatActivity {
+public class RegistrationActivity extends AppCompatActivity {
 
-    private EditText emailogEt, passwordlogEt;
+    private EditText emailregEt, passwordregEt;
     private Button registerBtn;
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_registration);
 
-        emailogEt = (EditText)findViewById(R.id.emailogEt);
-        passwordlogEt = (EditText)findViewById(R.id.passwordlogEt);
+        emailregEt = (EditText)findViewById(R.id.emailregEt);
+        passwordregEt = (EditText)findViewById(R.id.passwordregEt);
         registerBtn = (Button)findViewById(R.id.registerBtn);
         mAuth = FirebaseAuth.getInstance();
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ProgressDialog progressDialog = ProgressDialog.show(LoginActivity.this, "Please wait...", "Processing...", true);
-
-                (mAuth.signInWithEmailAndPassword(emailogEt.getText().toString(), passwordlogEt.getText().toString())).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                final ProgressDialog progressDialog = ProgressDialog.show(RegistrationActivity.this, "Please wait...", "Processing...", true);
+                (mAuth.createUserWithEmailAndPassword(emailregEt.getText().toString(), passwordregEt.getText().toString())).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
 
                         if(task.isSuccessful()){
-                            Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
-                            intent.putExtra("Email", mAuth.getCurrentUser().getEmail());
+                            Toast.makeText(RegistrationActivity.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                             startActivity(intent);
-
                         } else {
                             Log.e("ERROR", task.getException().toString());
-                            Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-
+                            Toast.makeText(RegistrationActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

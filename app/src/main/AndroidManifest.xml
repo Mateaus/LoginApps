@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mat.systemmanagement">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,10 +23,10 @@
             android:label="@string/title_activity_recycler"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".RoomActivities.CreateUserActivity" />
-        <activity android:name=".RoomActivities.DeleteUserActivity" />
         <activity android:name=".RoomActivities.UpdateUserActivity" />
+        <activity android:name=".FireBaseAccountActivity.RegistrationActivity" />
         <activity android:name=".FireBaseAccountActivity.LoginActivity" />
-        <activity android:name=".FireBaseAccountActivity.SignupActivity"></activity>
+        <activity android:name=".FireBaseAccountActivity.ProfileActivity"></activity>
     </application>
 
 </manifest>
