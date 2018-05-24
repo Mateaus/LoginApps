@@ -39,6 +39,7 @@ public class MainLoginActivity extends AppCompatActivity {
     private EditText emailEt, passwordEt;
     private Button loginBtn, registrationBtn, retrievepassBtn;
     private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
     private ProgressDialog progressDialog;
     private static final String TAG = "MainLoginActivity";
     private String email, password;
@@ -55,6 +56,22 @@ public class MainLoginActivity extends AppCompatActivity {
         registrationBtn = (Button)findViewById(R.id.registrationBtn);
         retrievepassBtn = (Button)findViewById(R.id.retrievepassBtn);
         mAuth = FirebaseAuth.getInstance();
+
+
+         mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+            }
+        };
+
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,12 +123,12 @@ public class MainLoginActivity extends AppCompatActivity {
 
         if (user.isEmailVerified()) {
             Toast.makeText(MainLoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
-            UserPermission userPermission = new UserPermission(MainLoginActivity.this);
+            /*UserPermission userPermission = new UserPermission(MainLoginActivity.this);
             userPermission.setName(mAuth.getCurrentUser().getEmail());
-            userPermission.getUserPermission("user");
-            //Intent intent = new Intent(MainLoginActivity.this, ProfileActivity.class);
-            //intent.putExtra("Email", mAuth.getCurrentUser().getEmail());
-            //startActivity(intent);
+            userPermission.getUserPermission("user");*/
+            Intent intent = new Intent(MainLoginActivity.this, ProfileActivity.class);
+            intent.putExtra("Email", mAuth.getCurrentUser().getEmail());
+            startActivity(intent);
         } else {
             Toast.makeText(MainLoginActivity.this, "Email not verified, please verify email", Toast.LENGTH_SHORT).show();
             FirebaseAuth.getInstance().signOut();
@@ -131,4 +148,15 @@ public class MainLoginActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAuth.removeAuthStateListener(mAuthListener);
+    }
 }

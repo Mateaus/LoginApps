@@ -46,7 +46,7 @@ public class UserPermission extends AppCompatActivity{
                     String myString = dataSnapshot.getValue(String.class);
                     Log.d(TAG, "onClick: id: " + myString);
 
-                    if (myString.equalsIgnoreCase("regular")){
+                    if (myString.equalsIgnoreCase("admin")){
                         Toast.makeText(context, "Worked", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(context.getApplicationContext(), ProfileActivity.class);
                         intent.addFlags(FLAG_ACTIVITY_NEW_TASK);

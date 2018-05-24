@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class ProfileActivity extends AppCompatActivity {
 
     private TextView emailTv;
-    private Button customerBtn;
+    private Button customerBtn, registerBtn;
     public static Button calculateBtn;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -31,10 +31,11 @@ public class ProfileActivity extends AppCompatActivity {
         customerBtn = (Button)findViewById(R.id.customerBtn);
         emailTv = (TextView)findViewById(R.id.emailTv);
         calculateBtn = (Button)findViewById(R.id.calcBtn);
-        //emailTv.setText(getIntent().getExtras().getString("Email"));
+        registerBtn = (Button)findViewById(R.id.registerBtn);
+        emailTv.setText(getIntent().getExtras().getString("Email"));
 
-        UserPermission userPermission = new UserPermission(ProfileActivity.this);
-        emailTv.setText(userPermission.getName());
+        /*UserPermission userPermission = new UserPermission(ProfileActivity.this);
+        emailTv.setText(userPermission.getName());*/
         //userPermission.getUserPermission("user");
 
 
@@ -58,6 +59,14 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         };
+
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, RegistrationActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }
