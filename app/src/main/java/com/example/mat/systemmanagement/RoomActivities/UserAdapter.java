@@ -97,8 +97,4 @@ class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, users.size());
     }
-
-    public void updateItem(int position) {
-
-    }
 }

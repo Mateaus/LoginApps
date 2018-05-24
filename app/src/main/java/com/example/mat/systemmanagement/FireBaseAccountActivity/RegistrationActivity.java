@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -44,7 +45,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
                         if(task.isSuccessful()){
                             Toast.makeText(RegistrationActivity.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                            sendVerificationEmail();
+                            Intent intent = new Intent(RegistrationActivity.this, MainLoginActivity.class);
                             startActivity(intent);
                         } else {
                             Log.e("ERROR", task.getException().toString());
@@ -52,6 +54,26 @@ public class RegistrationActivity extends AppCompatActivity {
                         }
                     }
                 });
+            }
+        });
+    }
+    private void sendVerificationEmail() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(RegistrationActivity.this, "Email verification sent", Toast.LENGTH_SHORT).show();
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(RegistrationActivity.this, MainLoginActivity.class);
+                    finish();
+                } else {
+                    overridePendingTransition(0, 0);
+                    finish();
+                    overridePendingTransition(0 , 0);
+                    startActivity(getIntent());
+                }
             }
         });
     }
