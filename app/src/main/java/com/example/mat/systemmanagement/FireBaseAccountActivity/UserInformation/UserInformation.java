@@ -1,15 +1,29 @@
-package com.example.mat.systemmanagement.FireBaseAccountActivity;
+package com.example.mat.systemmanagement.FireBaseAccountActivity.UserInformation;
 
 public class UserInformation {
 
+    private static String id;
     private static String name;
     private static String email;
     private static String phone;
+    private static String role;
 
-    public UserInformation(String name, String email, String phone) {
+    public UserInformation(String name, String email, String phone, String role) {
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.role = role;
+    }
+    public UserInformation(){
+
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -34,5 +48,13 @@ public class UserInformation {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

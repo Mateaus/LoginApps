@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".FireBaseAccountActivity.RegistrationActivity">
+    tools:context=".FireBaseAccountActivity.LogInSystemActivities.RegistrationActivity">
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -60,5 +60,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Register" />
+
+    <Spinner
+        android:id="@+id/roleDd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        android:autofillHints="Role">
+
+    </Spinner>
 
 </LinearLayout>

@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FireBaseAccountActivity.MainLoginActivity">
+        <activity android:name=".FireBaseAccountActivity.LogInSystemActivities.MainLoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,10 +24,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".RoomActivities.CreateUserActivity" />
         <activity android:name=".RoomActivities.UpdateUserActivity" />
-        <activity android:name=".FireBaseAccountActivity.RegistrationActivity" />
-        <activity android:name=".FireBaseAccountActivity.LoginActivity" />
-        <activity android:name=".FireBaseAccountActivity.ProfileActivity" />
-        <activity android:name=".FireBaseAccountActivity.RetrievePasswordActivity"></activity>
+        <activity android:name=".FireBaseAccountActivity.LogInSystemActivities.RegistrationActivity" />
+        <activity android:name=".FireBaseAccountActivity.UserInterface.AdminUI.AdminProfileActivity" />
+        <activity android:name=".FireBaseAccountActivity.LogInSystemActivities.RetrievePasswordActivity" />
+        <activity android:name=".FireBaseAccountActivity.UserInterface.AdminUI.ViewDatabase" />
+        <activity android:name=".FireBaseAccountActivity.UserInterface.ManagerUI.ManagerProfileActivity" />
+        <activity android:name=".FireBaseAccountActivity.UserInterface.WorkerUI.WorkerProfileActivity"></activity>
     </application>
 
 </manifest>

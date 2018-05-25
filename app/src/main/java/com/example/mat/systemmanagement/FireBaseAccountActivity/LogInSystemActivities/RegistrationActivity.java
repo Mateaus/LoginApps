@@ -1,8 +1,7 @@
-package com.example.mat.systemmanagement.FireBaseAccountActivity;
+package com.example.mat.systemmanagement.FireBaseAccountActivity.LogInSystemActivities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,23 +10,21 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.mat.systemmanagement.FireBaseAccountActivity.UserInformation.UserInformation;
 import com.example.mat.systemmanagement.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -35,11 +32,13 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private EditText nameregEt, passwordregEt, emailregEt, phoneregEt;
     private Button registerBtn;
+    private Spinner roleDd;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference myRef;
     private String userID;
+    private String item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +50,18 @@ public class RegistrationActivity extends AppCompatActivity {
         passwordregEt = (EditText)findViewById(R.id.passwordregEt);
         phoneregEt = (EditText)findViewById(R.id.phoneregEt);
         registerBtn = (Button)findViewById(R.id.registerBtn);
+        roleDd = (Spinner)findViewById(R.id.roleDd);
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getInstance().getReference();
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        String[] items = new String[] {"Admin", "Manager", "Worker"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        roleDd.setAdapter(adapter);
+
+        item = "admin";
+
 
         if (user != null) {
             userID = user.getUid();
@@ -94,16 +101,18 @@ public class RegistrationActivity extends AppCompatActivity {
                     String email = emailregEt.getText().toString();
                     String password = passwordregEt.getText().toString();
                     String phoneNum = phoneregEt.getText().toString();
+                    item = roleDd.getSelectedItem().toString();
 
                     Log.d(TAG, "onClick: Attempting to submit to database \n" +
                             "name: " + name + "\n" +
                             "email: " + email + "\n" +
-                            "phone number: " + phoneNum + "\n"
+                            "phone number: " + phoneNum + "\n" +
+                            "role: " + item
                     );
                     // handle the exceptions if the EditText fields are null
                     if (!name.equals("") && !email.equals("") && !phoneNum.equals("")){
-                        UserInformation userInformation = new UserInformation(name, email, phoneNum);
-                        myRef.child("users").child(userID).push().setValue(userInformation);
+                        UserInformation userInformation = new UserInformation(name, email, phoneNum, item);
+                        myRef.child("users").child(userID).setValue(userInformation);
                         Toast.makeText(RegistrationActivity.this,"New Information has been saved.", Toast.LENGTH_SHORT).show();
 
                     } else {

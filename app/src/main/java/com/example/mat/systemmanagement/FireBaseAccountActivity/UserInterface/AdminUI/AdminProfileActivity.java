@@ -1,4 +1,4 @@
-package com.example.mat.systemmanagement.FireBaseAccountActivity;
+package com.example.mat.systemmanagement.FireBaseAccountActivity.UserInterface.AdminUI;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -8,18 +8,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.mat.systemmanagement.FireBaseAccountActivity.LogInSystemActivities.RegistrationActivity;
+import com.example.mat.systemmanagement.FireBaseAccountActivity.UserInformation.UserPermission;
 import com.example.mat.systemmanagement.R;
 import com.example.mat.systemmanagement.RoomActivities.RecyclerActivity;
 import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class ProfileActivity extends AppCompatActivity {
+public class AdminProfileActivity extends AppCompatActivity {
 
     private TextView emailTv;
-    private Button customerBtn, registerBtn;
+    private Button customerBtn, registerBtn,userBtn;
     public static Button calculateBtn;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private static final String TAG = "UserPermission";
 
 
     @Override
@@ -32,17 +35,17 @@ public class ProfileActivity extends AppCompatActivity {
         emailTv = (TextView)findViewById(R.id.emailTv);
         calculateBtn = (Button)findViewById(R.id.calcBtn);
         registerBtn = (Button)findViewById(R.id.registerBtn);
-        emailTv.setText(getIntent().getExtras().getString("Email"));
+        userBtn = (Button)findViewById(R.id.userBtn);
+        //emailTv.setText(getIntent().getExtras().getString("Email"));
 
-        /*UserPermission userPermission = new UserPermission(ProfileActivity.this);
-        emailTv.setText(userPermission.getName());*/
-        //userPermission.getUserPermission("user");
-
+        UserPermission userPermission = new UserPermission(AdminProfileActivity.this);
+        emailTv.setText(userPermission.getName());
+        //userPermission.getUserPermission();
 
         customerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, RecyclerActivity.class);
+                Intent intent = new Intent(AdminProfileActivity.this, RecyclerActivity.class);
                 startActivity(intent);
             }
         });
@@ -63,7 +66,15 @@ public class ProfileActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, RegistrationActivity.class);
+                Intent intent = new Intent(AdminProfileActivity.this, RegistrationActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        userBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminProfileActivity.this, ViewDatabase.class);
                 startActivity(intent);
             }
         });

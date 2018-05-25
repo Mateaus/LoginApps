@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".FireBaseAccountActivity.MainLoginActivity">
+    tools:context=".FireBaseAccountActivity.LogInSystemActivities.MainLoginActivity">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -117,39 +117,23 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <Button
-            android:id="@+id/registrationBtn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="8dp"
-            android:text="Registration"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loginBtn"
-            app:layout_constraintVertical_bias="0.047" />
-
-        <Button
             android:id="@+id/retrievepassBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="32dp"
             android:layout_marginEnd="30dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginStart="30dp"
             android:layout_marginTop="8dp"
             android:text="Forgot Password?"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/registrationBtn"
-            app:layout_constraintVertical_bias="0.75" />
+            app:layout_constraintTop_toBottomOf="@+id/loginBtn"
+            app:layout_constraintVertical_bias="1.0" />
 
     </android.support.constraint.ConstraintLayout>
 
