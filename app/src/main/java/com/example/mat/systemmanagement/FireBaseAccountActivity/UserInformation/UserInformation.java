@@ -7,6 +7,7 @@ public class UserInformation {
     private static String email;
     private static String phone;
     private static String role;
+    private static String push;
 
     public UserInformation(String name, String email, String phone, String role) {
         this.name = name;
@@ -56,5 +57,13 @@ public class UserInformation {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getPush() {
+        return push;
+    }
+
+    public void setPush(String push) {
+        this.push = push;
     }
 }

@@ -24,13 +24,15 @@ public class ViewDatabase extends AppCompatActivity {
 
     private static final String TAG = "ViewDatabase";
 
-    private FirebaseDatabase mFirebaseDatabase;
+    private ListView mListView;
+
     private FirebaseAuth mAuth;
+    private FirebaseUser user;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
-    private String userID;
 
-    private ListView mListView;
+    private String userId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +42,16 @@ public class ViewDatabase extends AppCompatActivity {
         mListView = (ListView)findViewById(R.id.listview);
 
         mAuth = FirebaseAuth.getInstance();
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference();
-        FirebaseUser user = mAuth.getCurrentUser();
+        user = mAuth.getCurrentUser();
 
-        userID = user.getUid();
+        if (user != null) {
+            // signed in
+            userId = user.getUid();
+        } else {
+            Log.e(TAG, "You aren't logged in");
+            finish();
+        }
+        myRef = FirebaseDatabase.getInstance().getReference();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -53,27 +60,23 @@ public class ViewDatabase extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    toastMessage("Successfully signed in with: " + user.getEmail());
                 } else {
                     Log.d(TAG, "onAuthStateChanged:signed_out");
-                    toastMessage("Successfully signed out.");
                 }
             }
         };
 
         myRef.addValueEventListener(new ValueEventListener() {
-
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    Log.d(TAG, "Is it connected?: connected");
-                    toastMessage("connected");
-                    showData(dataSnapshot);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                showData(dataSnapshot);
+                Log.d(TAG, "Listener is Connected to the Databaselol1 " + myRef);
+                Log.d(TAG, "Listener is Connected to the Databaselol2 " + dataSnapshot);
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                toastMessage("listener was cancelled");
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d(TAG, "Listener was disconnected from the Database");
             }
         });
     }
@@ -95,13 +98,17 @@ public class ViewDatabase extends AppCompatActivity {
     }
 
     private void showData(DataSnapshot dataSnapshot) {
+        Log.d(TAG, "We are inside the information before database is pushed");
+        Log.d(TAG, "DataSnapshot : " + dataSnapshot.getKey());
+        Log.d(TAG, "DataSnapshot getChildren: " + dataSnapshot.getChildren());
+        Log.d(TAG, "DataSnapshot value: " + dataSnapshot.child(userId));
         for (DataSnapshot ds :dataSnapshot.getChildren()) {
             UserInformation uInfo = new UserInformation();
-            uInfo.setId(userID);
-            uInfo.setName(ds.child(userID).getValue(UserInformation.class).getName());
-            uInfo.setEmail(ds.child(userID).getValue(UserInformation.class).getEmail());
-            uInfo.setPhone(ds.child(userID).getValue(UserInformation.class).getPhone());
-            uInfo.setRole(ds.child(userID).getValue(UserInformation.class).getRole());
+            uInfo.setId(userId);
+            uInfo.setName(ds.child(userId).getValue(UserInformation.class).getName());
+            uInfo.setEmail(ds.child(userId).getValue(UserInformation.class).getEmail());
+            uInfo.setPhone(ds.child(userId).getValue(UserInformation.class).getPhone());
+            uInfo.setRole(ds.child(userId).getValue(UserInformation.class).getRole());
 
             Log.d(TAG, "showData: ID: " + uInfo.getId());
             Log.d(TAG, "showData: name: " + uInfo.getName());

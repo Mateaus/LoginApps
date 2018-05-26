@@ -51,7 +51,6 @@ public class RetrievePasswordActivity extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplication(), "Enter your registered email id", Toast.LENGTH_SHORT).show();
-                    return;
                 }
 
                 progressBar.setVisibility(View.VISIBLE);
@@ -62,12 +61,11 @@ public class RetrievePasswordActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(RetrievePasswordActivity.this, "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(RetrievePasswordActivity.this, MainLoginActivity.class);
+                            progressBar.setVisibility(View.INVISIBLE);
                             startActivity(intent);
                         } else {
                             Toast.makeText(RetrievePasswordActivity.this, "Failed to send reset instructions to email", Toast.LENGTH_SHORT).show();
                         }
-
-                        progressBar.setVisibility(View.GONE);
                     }
                 });
 

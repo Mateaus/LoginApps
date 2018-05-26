@@ -3,15 +3,22 @@ package com.example.mat.systemmanagement.FireBaseAccountActivity.UserInformation
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.mat.systemmanagement.FireBaseAccountActivity.UserInterface.AdminUI.AdminProfileActivity;
-import com.firebase.client.DataSnapshot;
+import com.example.mat.systemmanagement.FireBaseAccountActivity.UserInterface.ManagerUI.ManagerProfileActivity;
+import com.example.mat.systemmanagement.FireBaseAccountActivity.UserInterface.WorkerUI.WorkerProfileActivity;
+
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
@@ -37,30 +44,29 @@ public class UserPermission extends AppCompatActivity{
 
     public void getUserPermission(String userId) {
 
-        Log.d(TAG, "THIS IS INSIDER GETUSERPERMISSION FUNCTION! userID: " + userId);
-            Firebase myFirebase = new Firebase("https://fir-accountap.firebaseio.com/users/"+userId+"/role");
-        Log.d(TAG, "THIS IS INSIDER GETUSERPERMISSION FUNCTION! userID: " + myFirebase);
-            myFirebase.addValueEventListener(new ValueEventListener() {
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("role");
+
+        myRef.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     String myString = dataSnapshot.getValue(String.class);
                     Log.d(TAG, "onClick: id: " + myString);
 
                     if (myString.equalsIgnoreCase("Admin")){
-                        Toast.makeText(context, "Admin Section", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "You are logged or redirected to the Admin user interface");
                         Intent intent = new Intent(context.getApplicationContext(), AdminProfileActivity.class);
                         intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
                         context.getApplicationContext().startActivity(intent);
                     }
                     else if (myString.equalsIgnoreCase("Manager")) {
-                        Toast.makeText(context, "Manager Section", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(context.getApplicationContext(), AdminProfileActivity.class);
+                        Log.d(TAG, "You are logged or redirected to the Manager user interface");
+                        Intent intent = new Intent(context.getApplicationContext(), ManagerProfileActivity.class);
                         intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
                         context.getApplicationContext().startActivity(intent);
                     }
                     else if (myString.equalsIgnoreCase("Worker")){
-                        Toast.makeText(context, "Worker Section", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(context.getApplicationContext(), AdminProfileActivity.class);
+                        Log.d(TAG, "You are logged or redirected to the Worker user interface");
+                        Intent intent = new Intent(context.getApplicationContext(), WorkerProfileActivity.class);
                         intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
                         context.getApplicationContext().startActivity(intent);
                     }
@@ -71,7 +77,7 @@ public class UserPermission extends AppCompatActivity{
                 }
 
                 @Override
-                public void onCancelled(FirebaseError firebaseError) {
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
             });

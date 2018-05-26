@@ -36,7 +36,6 @@ public class MainLoginActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
     private String email, password;
-    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +45,8 @@ public class MainLoginActivity extends AppCompatActivity {
 
         emailEt = (EditText)findViewById(R.id.emailEt);
         passwordEt = (EditText)findViewById(R.id.passwordEt);
-        loginBtn = (Button)findViewById(R.id.loginBtn);
+        loginBtn = (Button)findViewById(R.id.loginregBtn);
         retrievepassBtn = (Button)findViewById(R.id.retrievepassBtn);
-
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -74,7 +72,6 @@ public class MainLoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    Log.d(TAG, "THIS IS INSIDER adasdasda function! START ");
                     progressDialog = ProgressDialog.show(MainLoginActivity.this, "Please wait...", "Processing...", true, false);
                     (mAuth.signInWithEmailAndPassword(emailEt.getText().toString(), passwordEt.getText().toString())).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -83,7 +80,9 @@ public class MainLoginActivity extends AppCompatActivity {
                             Log.d(TAG, "THIS IS INSIDER loginBtn function! START ");
                             if (task.isSuccessful()){
                                 String userId = mAuth.getCurrentUser().getUid();
-                                Log.d(TAG, "THIS IS INSIDER HERE!!! function! START ");
+                                String i = myRef.getKey();
+                                Log.d(TAG, "THIS IS INSIDER HERE: " + userId);
+                                Log.d(TAG, "THIS IS INSIDER HERE: " + i);
                                 //Intent intent = new Intent(MainLoginActivity.this, AdminProfileActivity.class);
                                 checkIfEmailVerified(userId);
                                 resetLoginInformation(); // After login is successful, this function will erase the login inputs if someone backtracks back to the login screen.
@@ -116,17 +115,18 @@ public class MainLoginActivity extends AppCompatActivity {
 
         if (user.isEmailVerified()) {
             Toast.makeText(MainLoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
-            UserPermission userPermission = new UserPermission(MainLoginActivity.this);
-            RegistrationActivity registrationActivity = new RegistrationActivity();
+            Log.d(TAG, "emailverification is successful");
+            UserPermission userPermission = new UserPermission(MainLoginActivity.this); // TODO: FIX!
             userPermission.setName(mAuth.getCurrentUser().getEmail());
             userPermission.getUserPermission(userId);
             /*Intent intent = new Intent(MainLoginActivity.this, AdminProfileActivity.class);
             intent.putExtra("Email", mAuth.getCurrentUser().getEmail());
             startActivity(intent);*/
         } else {
+            Log.d(TAG, "Email sent from here!");
             sendVerificationEmail();
             Toast.makeText(MainLoginActivity.this, "Email not verified, please verify email", Toast.LENGTH_SHORT).show();
-            FirebaseAuth.getInstance().signOut();
+            //FirebaseAuth.getInstance().signOut();
         }
     }
 
@@ -162,6 +162,7 @@ public class MainLoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
+                    Log.d(TAG, "Email verification is being sent from here");
                     Toast.makeText(MainLoginActivity.this, "Email verification sent", Toast.LENGTH_SHORT).show();
                 } else {
                     finish();

@@ -24,12 +24,17 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".RoomActivities.CreateUserActivity" />
         <activity android:name=".RoomActivities.UpdateUserActivity" />
-        <activity android:name=".FireBaseAccountActivity.LogInSystemActivities.RegistrationActivity" />
+        <activity android:name=".FireBaseAccountActivity.UserInterface.AdminUI.AdminRegistrationActivity" />
         <activity android:name=".FireBaseAccountActivity.UserInterface.AdminUI.AdminProfileActivity" />
         <activity android:name=".FireBaseAccountActivity.LogInSystemActivities.RetrievePasswordActivity" />
         <activity android:name=".FireBaseAccountActivity.UserInterface.AdminUI.ViewDatabase" />
         <activity android:name=".FireBaseAccountActivity.UserInterface.ManagerUI.ManagerProfileActivity" />
-        <activity android:name=".FireBaseAccountActivity.UserInterface.WorkerUI.WorkerProfileActivity"></activity>
+        <activity android:name=".FireBaseAccountActivity.UserInterface.WorkerUI.WorkerProfileActivity" />
+        <activity android:name=".FireBaseAccountActivity.UserInterface.AdminUI.AdminConfirmingAccount" />
+        <activity android:name=".FireBaseAccountActivity.UserInterface.ManagerUI.ManagerConfirmingAccount" />
+        <activity android:name=".FireBaseAccountActivity.UserInterface.ManagerUI.ManagerRegistrationActivity" />
+        <activity android:name=".FireBaseAccountActivity.UserInterface.ManagerUI.ManagerAuthenticationActivity" />
+        <activity android:name=".FireBaseAccountActivity.UserInterface.AdminUI.AdminAuthenticationActivity"></activity>
     </application>
 
 </manifest>

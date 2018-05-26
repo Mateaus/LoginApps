@@ -1,4 +1,4 @@
-package com.example.mat.systemmanagement.FireBaseAccountActivity.LogInSystemActivities;
+package com.example.mat.systemmanagement.FireBaseAccountActivity.UserInterface.ManagerUI;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -13,7 +13,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.mat.systemmanagement.FireBaseAccountActivity.UserInformation.UserInformation;
+import com.example.mat.systemmanagement.FireBaseAccountActivity.UserInterface.AdminUI.AdminConfirmingAccount;
+import com.example.mat.systemmanagement.FireBaseAccountActivity.UserInterface.AdminUI.AdminRegistrationActivity;
 import com.example.mat.systemmanagement.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,47 +27,45 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class RegistrationActivity extends AppCompatActivity {
+public class ManagerRegistrationActivity extends AppCompatActivity {
 
     private static final String TAG = "AddUserstoDatabase";
 
     private EditText nameregEt, passwordregEt, emailregEt, phoneregEt;
     private Button registerBtn;
     private Spinner roleDd;
+
     private FirebaseAuth mAuth;
+    private FirebaseUser user;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference myRef;
-    private String userID;
-    private String item;
+
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
+        setContentView(R.layout.activity_manager_registration);
 
         nameregEt = (EditText)findViewById(R.id.nameregEt);
         emailregEt = (EditText)findViewById(R.id.emailregEt);
         passwordregEt = (EditText)findViewById(R.id.passwordregEt);
         phoneregEt = (EditText)findViewById(R.id.phoneregEt);
-        registerBtn = (Button)findViewById(R.id.registerBtn);
+        registerBtn = (Button)findViewById(R.id.createBtn);
         roleDd = (Spinner)findViewById(R.id.roleDd);
-        mAuth = FirebaseAuth.getInstance();
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getInstance().getReference();
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        String[] items = new String[] {"Admin", "Manager", "Worker"};
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+
+        String[] items = new String[] {"Worker"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         roleDd.setAdapter(adapter);
 
-        item = "admin";
-
 
         if (user != null) {
-            userID = user.getUid();
+            userId = user.getUid();
         }
-
+        myRef = FirebaseDatabase.getInstance().getReference();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -96,54 +95,25 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (user != null){
-                    String name = nameregEt.getText().toString();
-                    String email = emailregEt.getText().toString();
-                    String password = passwordregEt.getText().toString();
-                    String phoneNum = phoneregEt.getText().toString();
-                    item = roleDd.getSelectedItem().toString();
-
-                    Log.d(TAG, "onClick: Attempting to submit to database \n" +
-                            "name: " + name + "\n" +
-                            "email: " + email + "\n" +
-                            "phone number: " + phoneNum + "\n" +
-                            "role: " + item
-                    );
-                    // handle the exceptions if the EditText fields are null
-                    if (!name.equals("") && !email.equals("") && !phoneNum.equals("")){
-                        UserInformation userInformation = new UserInformation(name, email, phoneNum, item);
-                        myRef.child("users").child(userID).setValue(userInformation);
-                        Toast.makeText(RegistrationActivity.this,"New Information has been saved.", Toast.LENGTH_SHORT).show();
-
-                    } else {
-                        Toast.makeText(RegistrationActivity.this, "Fill out all the fields", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-
-                final ProgressDialog progressDialog = ProgressDialog.show(RegistrationActivity.this, "Please wait...", "Processing...", true);
+                final ProgressDialog progressDialog = ProgressDialog.show(ManagerRegistrationActivity.this, "Please wait...", "Processing...", true);
                 (mAuth.createUserWithEmailAndPassword(emailregEt.getText().toString(), passwordregEt.getText().toString())).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
 
                         if(task.isSuccessful()){
-                            Toast.makeText(RegistrationActivity.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ManagerRegistrationActivity.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
                             sendVerificationEmail();
-                            finishActivity(0);
-                            /*Intent intent = new Intent(RegistrationActivity.this, MainLoginActivity.class);
-                            startActivity(intent);*/
                         } else {
                             Log.e("ERROR", task.getException().toString());
-                            Toast.makeText(RegistrationActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ManagerRegistrationActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
             }
         });
     }
-
-   @Override
+    @Override
     public void onStart(){
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
@@ -162,10 +132,27 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(RegistrationActivity.this, "Email verification sent", Toast.LENGTH_SHORT).show();
-                    FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(RegistrationActivity.this, MainLoginActivity.class);
-                    finish();
+                    Toast.makeText(ManagerRegistrationActivity.this, "Email verification sent", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ManagerRegistrationActivity.this, ManagerConfirmingAccount.class);
+
+                    String name = nameregEt.getText().toString();
+                    String email = emailregEt.getText().toString();
+                    String password = passwordregEt.getText().toString();
+                    String phoneNum = phoneregEt.getText().toString();
+                    String item = roleDd.getSelectedItem().toString();
+                    intent.putExtra("name", name);
+                    intent.putExtra("email", email);
+                    intent.putExtra("password", password);
+                    intent.putExtra("phone", phoneNum);
+                    intent.putExtra("role", item);
+
+                    Log.d(TAG, "onClick: Attempting to submit to database \n" +
+                            "name: " + name + "\n" +
+                            "email: " + email + "\n" +
+                            "phone number: " + phoneNum + "\n" +
+                            "role: " + item
+                    );
+                    startActivity(intent);
                 } else {
                     overridePendingTransition(0, 0);
                     finish();
