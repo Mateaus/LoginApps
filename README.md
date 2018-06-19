@@ -26,4 +26,4 @@ the phone. (Which I later thought It would be a better idea to use Firebase Data
 in order to keep it as a backup in case the phone's memory gets deleted).
 - Lastly, I found Firebase which I found to be really good and decided to spend days upon days just learning how to implement it into
 an Android application. Until I finally got the hang of it and managed to create what I currenty have here. I would of loved to continue
-but I had to stop because the school semester was beginning.
+but I had to stop because school semester started and my classes are taking up most of my time.
